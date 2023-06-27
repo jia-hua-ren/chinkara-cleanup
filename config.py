@@ -1,0 +1,27 @@
+WIN_WIDTH = 1280
+WIN_HEIGHT = 720
+
+WIN_CENTER = (640, 360)
+
+TILESIZE = 100
+FPS = 60
+
+TEXTBOX_LAYER = 5
+PLAYER_LAYER = 4
+ENEMY_LAYER = 3
+BLOCK_LAYER = 2
+GROUND_LAYER = 1
+
+PLAYER_SPEED = 5
+ENEMY_SPEED = 2
+ENEMY_CHASE_BOOST = 2.5
+GOAT_SPEED = 4
+
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+WHITE = (255, 255, 255)
+
+# FONT_PATH = './assets/fonts/SourceSansPro-Regular.ttf'
+FONT_PATH = './assets/fonts/Roboto-Regular.ttf'
+
