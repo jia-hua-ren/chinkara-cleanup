@@ -5,15 +5,12 @@ from utility import *
 from button import *
 from textbox import *
 from goat import *
-from ground import *
-from shadow import *
+from terrain import *
 from player import *
 from enemy import *
-from block import *
 from config import *
 from levels import *
 from item import *
-from door import *
 from slideshow import *
 from fadein import *
 from mapobject import *
