@@ -2,8 +2,7 @@ import pygame
 from sys import exit
 from random import getrandbits
 from utility import *
-from button import *
-from textbox import *
+from ui import *
 from goat import *
 from terrain import *
 from player import *
@@ -12,7 +11,6 @@ from config import *
 from levels import *
 from item import *
 from slideshow import *
-from fadein import *
 from mapobject import *
 
 class Game:

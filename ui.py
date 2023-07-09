@@ -2,6 +2,43 @@ import pygame
 from config import *
 from utility import *
 
+# Various UI elements for game interface
+# Button, Textbox, Fadein
+# Slideshow should be here, but it is too long, so it is just in another file
+
+class Button:
+    def __init__(self, x, y, width, height, fg, bg, content, fontsize):
+        """self, x, y, width, height, fg, bg, content, fontsize)"""
+        self.font = pygame.font.Font(FONT_PATH, fontsize)
+        self.content = content
+
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+
+        self.fg =fg
+        self.bg = bg
+
+        self.image = pygame.Surface((self.width, self.height)) 
+        self.image.fill(self.bg)
+        self.rect = self.image.get_rect()
+
+        self.rect.center = (self.x, self.y)
+
+        self.text = self.font.render(self.content, False, self.fg) #false antialiasing
+        self.text_rect = self.text.get_rect(center=(self.width/2, self.height/2))
+        self.image.blit(self.text, self.text_rect)
+
+    def is_pressed(self, pos, pressed):
+        if self.rect.collidepoint(pos):
+            if pressed[0]:
+                return True
+            return False
+        return False
+    
+
+
 class Textbox(pygame.sprite.Sprite):
     def __init__(self, game, text_list, size, clock):
         self.clock = clock
@@ -68,3 +105,26 @@ class Textbox(pygame.sprite.Sprite):
 
         self.clock_cycles += 1
         # self.clock.tick(FPS)
+
+
+class Fadein():
+    def __init__(self, image, pos, speed, screen):
+        self.image = image
+        self.pos = pos
+        self.screen = screen
+        self.speed = speed
+        self.rect = self.image.get_rect()
+        self.rect.center = self.pos
+        self.image.set_alpha(0)
+        self.alph = 0
+    
+    def update(self):
+        if self.alph <= 250:
+            self.alph += self.speed
+            self.image.set_alpha(self.alph)
+
+    def draw(self):
+        # print(self.alph)
+        self.update()
+        self.screen.fill(BLACK)
+        self.screen.blit(self.image, self.rect)

@@ -2,7 +2,7 @@ import pygame
 from config import *
 from levels import *
 from utility import Text
-from button import *
+from ui import Button
 
 class Item(pygame.sprite.Sprite):
     def __init__(self, game, x, y, gdp = False):
