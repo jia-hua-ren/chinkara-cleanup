@@ -1,34 +1,24 @@
 import pygame
 from config import *
+from mob import *
 import math
 import random
 
-class Enemy(pygame.sprite.Sprite):
+class Enemy(Mob):
     def __init__(self, game, x, y):
         self.game = game
         self._layer = ENEMY_LAYER
         self.groups = self.game.all_sprites, self.game.enemies
-        pygame.sprite.Sprite.__init__(self, self.groups)
-
-        self.x = x * TILESIZE
-        self.y = y * TILESIZE
-        self.width = TILESIZE
-        self.height = TILESIZE
-
-        self.x_change = 0
-        self.y_change = 0   
 
         self.facing = random.choice(['left', 'right']) 
         self.animation_loop = 1
         self.movement_loop = 0
         self.max_travel = random.randint(30, 150) # enemy move back forth 7 to 30 pixels
 
-        self.image = self.game.enemy_spritesheet.get_sprite(0, 0, self.width, self.height)
-        self.image.set_colorkey(BLACK) #get transparent background
+        image = self.game.enemy_spritesheet.get_sprite(0, 0, TILESIZE, TILESIZE)
+        image.set_colorkey(BLACK) #get transparent background
 
-        self.rect = self.image.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
+        super().__init__(x, y, image)
 
         # for the return to original function
         # self.original_x = (self.rect.x - self.max_travel, self.rect.x, self.rect.x + self.max_travel)

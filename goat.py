@@ -1,65 +1,53 @@
 import pygame
 from config import *
 from utility import *
+from mob import *
 import random
 
-class Goat(pygame.sprite.Sprite):
+class Goat(Mob):
     def __init__(self, game, x, y, type):
         self.type = type
         self.game = game
         self._layer = ENEMY_LAYER
         self.groups = self.game.all_sprites, self.game.goats
-        pygame.sprite.Sprite.__init__(self, self.groups)
-
-        self.x = x * TILESIZE
-        self.y = y * TILESIZE
-        self.width = TILESIZE
-        self.height = TILESIZE
-
-        # This is a testing comment
-        self.x_change = 0
-        self.y_change = 0   
 
         self.facing = 'left'#random.choice(['left', 'right', 'up', 'down']) 
         self.animation_loop = 0
         self.movement_loop = 0
         self.max_travel = random.randint(7, 30) # goat move back forth 7 to 30 pixels
 
-
-        self.image = self.game.goat_spritesheet.get_sprite(0, 0, self.width, self.height)
-        self.image.set_colorkey(BLACK) #get transparent background
+        image = self.game.goat_spritesheet.get_sprite(0, 0, TILESIZE, TILESIZE)
+        image.set_colorkey(BLACK) #get transparent background
 
         # self.image = pygame.Surface([self.width, self.height])
         # self.image.fill((100, 100, 30))
 
-        self.rect = self.image.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
+        super().__init__(x, y, image)
 
         #animations must have same amount of frames
         if self.type == 0:
             self.left_animations = [
-                self.game.goat_spritesheet.get_sprite(0, 0, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(111, 0, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(225, 0, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(334, 0, self.width, self.height)
+                self.game.goat_spritesheet.get_sprite(0, 0, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(111, 0, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(225, 0, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(334, 0, TILESIZE, TILESIZE)
                 ]
             self.right_animations = [
-                self.game.goat_spritesheet.get_sprite(0, 326, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(111, 326, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(225, 326, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(334, 326, self.width, self.height)
+                self.game.goat_spritesheet.get_sprite(0, 326, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(111, 326, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(225, 326, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(334, 326, TILESIZE, TILESIZE)
                 ]
             self.up_animations = [
-                self.game.goat_spritesheet.get_sprite(0, 109, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(104, 109, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(0, 109, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(104, 109, self.width, self.height)]
+                self.game.goat_spritesheet.get_sprite(0, 109, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(104, 109, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(0, 109, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(104, 109, TILESIZE, TILESIZE)]
             self.down_animations = [
-                self.game.goat_spritesheet.get_sprite(0, 219, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(123, 219, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(227, 219, self.width, self.height),
-                self.game.goat_spritesheet.get_sprite(123, 219, self.width, self.height)]
+                self.game.goat_spritesheet.get_sprite(0, 219, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(123, 219, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(227, 219, TILESIZE, TILESIZE),
+                self.game.goat_spritesheet.get_sprite(123, 219, TILESIZE, TILESIZE)]
         elif self.type == 1:
             self.left_animations = [self.game.L1, self.game.L2]
             self.up_animations = [self.game.B1, self.game.B2]
