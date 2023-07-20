@@ -56,7 +56,7 @@ class Game:
         self.go_background = self.bg_img
         # self.backTexture = load_new_image('./assets/img/backTexture.png', 1280, 150, WHITE)
 
-        self.item_aquired = False
+        self.key_aquired = False
 
         self.intro_images = [
             pygame.image.load(intro_images[0]).convert_alpha(),
@@ -138,12 +138,12 @@ class Game:
                 if column == "D": #goal, exit, door
                     Ground(self, j, i, True)
                     Door(self, j, i)
-                if column == "!": # special collectible item
+                if column == "!": # special collectible item (just brochure for now)
                     Ground(self, j, i, True)
-                    self.item_object = Item(self, j, i, True)
-                if column == "I": # item/ key
+                    self.item_object = Brochure(self, j, i)
+                if column == "I": # key
                     Ground(self, j, i, True)
-                    self.item_object = Item(self, j, i)
+                    self.item_object = Key(self, j, i)
                     
                 # moving objects by default should have restricted
                 # area under them
@@ -261,7 +261,7 @@ class Game:
         self.level = 0
         self.cutscene_level = 0
         self.level_clear = False
-        self.item_aquired = False
+        self.key_aquired = False
 
 
     def game_over(self):
@@ -289,7 +289,7 @@ class Game:
                 gameover = False
                 self.state = 'game'
                 self.level_clear = False
-                self.item_aquired = False
+                self.key_aquired = False
                 self.levelUpdate()
 
             if title_button.is_pressed(mouse_pos, mouse_pressed):
@@ -459,7 +459,7 @@ class Game:
             # print(self.level, len(levels))
             if next_level_button.is_pressed(mouse_pos, mouse_pressed):
                 self.level_clear = True
-                self.item_aquired = False
+                self.key_aquired = False
 
                 if self.level >= len(levels)-1:
                     self.state = 'ending'

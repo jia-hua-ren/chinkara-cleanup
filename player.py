@@ -66,11 +66,20 @@ class Player(pygame.sprite.Sprite):
             self.collide_enemy()
 
         self.rect.x += self.x_change
+        hits = pygame.sprite.spritecollide(self, self.game.door, False)
         self.collide_blocks('x')
+        if hits and self.game.key_aquired:
+            self.game.state = 'cutscene'
+        else:
+            self.collide_blocks('x', self.game.door)
         self.rect.y += self.y_change
+        hits = pygame.sprite.spritecollide(self, self.game.door, False)
         self.collide_blocks('y')
+        if hits and self.game.key_aquired:
+            self.game.state = 'cutscene'
+        else:
+            self.collide_blocks('y', self.game.door)
 
-        self.collide_door()
         self.collide_item()
 
         self.x_change = 0
@@ -152,29 +161,10 @@ class Player(pygame.sprite.Sprite):
     def collide_item(self):
         hits = pygame.sprite.spritecollide(self, self.game.item, False)
         if hits:
-            if not hits[0].gdp:
-                self.game.item_aquired = True
-            else:
-                hits[0].item_popup()
-                # text screen
+            if hits[0].id == 0:
+                self.game.key_aquired = True
+            hits[0].item_popup()
             hits[0].kill() #remove item from all sprites
-            
-
-    def collide_door(self):
-        hits = pygame.sprite.spritecollide(self, self.game.door, False)
-        if hits and self.game.item_aquired:
-            # print(self.game.playing)
-            # self.game.playing = False
-            self.game.state = 'cutscene'
-            # self.game.level_clear = True
-            # self.game.item_aquired = False
-           
-            # self.game.levelUpdate()
-            #pygame.sprite.spritecollide(self, self.game.door, True)
-            # self.game.running = False #next level
-        else:
-            self.collide_blocks('x', self.game.door)
-            self.collide_blocks('y', self.game.door)
 
     def collide_blocks(self, direction, group = None):
         if not group:
@@ -191,7 +181,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.x = hits[0].rect.right
                     for sprite in self.game.all_sprites:
                         sprite.rect.x -= PLAYER_SPEED
-        if direction == "y":
+        elif direction == "y":
             if hits:
                 if self.y_change > 0: #moving down
                     self.rect.y = hits[0].rect.top - self.rect.height #hits is the block rect
